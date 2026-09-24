@@ -2,7 +2,7 @@ import 'package:expense_tracker_app/features/home/data/models/expense_categories
 import 'package:expense_tracker_app/features/home/data/models/expense_transaction.dart';
 import 'package:expense_tracker_app/features/home/data/models/income_transaction.dart';
 import 'package:expense_tracker_app/features/home/data/models/type_enum.dart';
-import 'package:expense_tracker_app/features/home/income_categories_enum.dart';
+import 'package:expense_tracker_app/features/home/data/models/income_categories_enum.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
@@ -19,7 +19,7 @@ class DatabaseServices {
   static Future<Database> initDatabase() async{
     String path = await getDatabasesPath();
     String fullPath = join(path, _name);
-    return await openDatabase(fullPath, onCreate: onCreate);
+    return await openDatabase(fullPath, version: 1, onCreate: onCreate);
   }
 
   static Future<Database> get database async{
@@ -28,7 +28,6 @@ class DatabaseServices {
   }
 
   static void onCreate(Database db, int version) async{
-    final Database db = await database;
     await db.execute('''
     CREATE TABLE transactions(
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,6 +52,7 @@ class DatabaseServices {
         }
       }).toList();
     } catch (e) {
+      debugPrint(e.toString());
       return [];
     }
   }
@@ -80,6 +80,7 @@ class DatabaseServices {
             _table, transaction.toJson(), conflictAlgorithm: .replace);
       }
     }catch(e){
+      debugPrint(e.toString());
       return -1;
     }
   }

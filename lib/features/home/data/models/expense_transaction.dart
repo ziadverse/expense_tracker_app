@@ -18,7 +18,7 @@ class ExpenseTransaction extends TransactionModel {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'type': type.toString(),
+      'type': type.name,
       'date': date.toIso8601String(),
       'amount': amount.toInt(),
       'description': description,
@@ -29,7 +29,7 @@ class ExpenseTransaction extends TransactionModel {
   factory ExpenseTransaction.fromJson(Map<String, dynamic> json) {
     return ExpenseTransaction(
       id: json['id'],
-      type: json['type'] as TransactionType,
+      type: TransactionType.values.byName(json['type']),
       date: DateTime.parse(json['date']),
       amount: (json['amount'] as num).toDouble(),
       description: json['description'],

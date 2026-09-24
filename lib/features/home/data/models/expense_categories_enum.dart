@@ -3,5 +3,5 @@ enum ExpenseCategories{
   transport,
   shopping,
   housing,
-  bills, Entertainment, health, education, coffee, travel, subscriptions, other
+  bills, entertainment, health, education, coffee, travel, subscriptions, other
 }
